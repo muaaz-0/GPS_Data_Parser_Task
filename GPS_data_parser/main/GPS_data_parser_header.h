@@ -7,38 +7,22 @@ void manage_missing(string packet);
 bool unit_test1();
 void print();
 
-typedef struct {
-	char  sentenceID[7];//GPSData->sentenceID
+struct GPSData{
+    string sentenceID;
+    string time;
+    string latitude;
+    char latDir;
+    string longitude;
+    char longDir;
+    unsigned int QualityIndicator;
+    unsigned int NumofSat;
+    string horizontaldilution;
+    string altitude;
+    char altitudeUnits;
+    string meansealevelheight;
+    char geoidseparationUnits;
+    string timesincelastDC;
+    string differentialstationID;
+    string checksum;
 
-	char  UTCTime[10];
-
-	char  latitude[10];
-
-	char  latitudeDirection;
-
-	char  longitude[11];
-
-	char  longitudeDirection;
-
-	int   QualityIndicator;
-
-	int   Numofsatellites;
-
-	float horizontalDilution;
-
-	float altitude;
-
-	char  altitudeUnits;
-
-	float meanSeaLevelHeight;
-
-	char  geoidSeparationUnits;
-
-	float timeSinceLastDifferentialCorrection;
-
-	char  differentialStationID[10];
-	
-	char  checksum[2];
-} GPSData;
-
-int parse_gps_data(const char *packet, GPSData *gpsData);
+};
