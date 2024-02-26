@@ -212,23 +212,23 @@ while(token!=NULL)                           // Loop runns until Find Null Value
     GPSdata.checksum=calculated_checksum_hex;          
 }
 
-int parse_gps_data(string Sentence) {
+void print()      // Print the parameters of the GGA sentence
+{
     
-
-    // Extract packet data excluding '$' and '*'
-    char packet2[strlen(packet) - 3];
-    int k = 0;
-    for (int i = 1; packet[i] != '*'; i++) {
-        packet2[k++] = packet[i];
-    }
-    packet2[k] = '\0';
-
-    for(int f=0; f<=strlen(packet2); f++)
-    {
-        if(packet2[f]==',' && packet2[f+1]==',')
-        {
-
-        }
-    }
-
-        }
+cout<<"sentence ID: "<<                      GPSdata.sentenceID<<endl;
+cout<<"time: "<<                                   GPSdata.time<<endl;
+cout<<"latitude: "<<                           GPSdata.latitude<<endl;
+cout<<"latitude Direction: "<<                   GPSdata.latDir<<endl;
+cout<<"longitude: "<<                         GPSdata.longitude<<endl;
+cout<<"longitude Direction: "<<                 GPSdata.longDir<<endl;
+cout<<"Quality Indicator: "<<          GPSdata.QualityIndicator<<endl;
+cout<<"No of satellites: "<<                   GPSdata.NumofSat<<endl;
+cout<<"horizontal dilution: "<<      GPSdata.horizontaldilution<<endl;
+cout<<"altitude: "<<                           GPSdata.altitude<<endl;
+cout<<"altitude units: "<<                GPSdata.altitudeUnits<<endl;
+cout<<"mean sea level height: "<<    GPSdata.meansealevelheight<<endl;
+cout<<"geoideal separation unit: "<<GPSdata.geoidseparationUnits<<endl;
+cout<<"time since last DC: "<<          GPSdata.timesincelastDC<<endl;
+cout<<"differential sation id: "<<GPSdata.differentialstationID<<endl;
+cout<<"checksum: "<<                           GPSdata.checksum<<endl;
+}
