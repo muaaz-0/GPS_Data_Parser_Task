@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "gps_data_parser_header.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser"
 }

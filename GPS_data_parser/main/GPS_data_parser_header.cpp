@@ -1,11 +1,10 @@
-#include <stdint.h>
+#include <iostream>
 #include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
+using namespace std;
 #include "GPS_data_parser_header.h"
 
-int parse_gps_data(const char *packet, GPSData *gpsData) {
+int parse_gps_data(string Sentence) {
     // Calculate checksum
     unsigned int checksum = 0;
     for (int i = 1; packet[i] != '*' && packet[i] != '\0'; i++) {
@@ -31,13 +30,29 @@ int parse_gps_data(const char *packet, GPSData *gpsData) {
     char calculated_checksum_hex[3];
     snprintf(calculated_checksum_hex, sizeof(calculated_checksum_hex), "%02X", checksum);
 
+int Noof_empty_data=0;
+int empty_count=0;
+int empty_data_pos[15];
+
+
     // Check sentence format
     int commas = 0;
     for (int i = 0; i < strlen(packet); i++) {
         if (packet[i] == ',') {
             commas++;
         }
-    }
+        //checking for empty data positions
+            if (packet[i] == ',' && packet[i+1] == ',') {
+                empty_data_pos[empty_count]=commas;
+                
+                printf("empty data position is%d\n", empty_data_pos[empty_count]);
+                empty_count++;
+                Noof_empty_data=empty_count;
+                printf("empty parameter position is: %d\n", Noof_empty_data);
+
+            }
+        }
+    
     if (strncmp(packet, "$GPGGA,", 7) == 0 && commas == 14 && packet[i] == '*') {
         printf("The sentence is in GGA format: "); // GGA sentence
     } else {
@@ -46,9 +61,10 @@ int parse_gps_data(const char *packet, GPSData *gpsData) {
 
     // Check packet integrity
     if (strcmp(provided_checksum, calculated_checksum_hex) == 0) {
-        printf("Packet integrity valid\n");
+
+        printf("Packet integrity valid chksum \n", calculated_checksum_hex);
     } else {
-        printf("Packet integrity not valid\n");
+        printf("Packet integrity not valid \n", calculated_checksum_hex );
     }
 
     // Extract packet data excluding '$' and '*'
@@ -58,6 +74,14 @@ int parse_gps_data(const char *packet, GPSData *gpsData) {
         packet2[k++] = packet[i];
     }
     packet2[k] = '\0';
+
+    for(int f=0; f<=strlen(packet2); f++)
+    {
+        if(packet2[f]==',' && packet2[f+1]==',')
+        {
+
+        }
+    }
 
     // Tokenize packet data
     char packet_copy[max_length];
@@ -70,12 +94,18 @@ int parse_gps_data(const char *packet, GPSData *gpsData) {
     while (token != NULL && j < 15) {
         switch (j) {
             case 0:
+
                 strncpy(gpsData->sentenceID, token, sizeof(gpsData->sentenceID) - 1);
                 gpsData->sentenceID[sizeof(gpsData->sentenceID) - 1] = '\0';
                 break;
+
             case 1:
-                strncpy(gpsData->UTCTime, token, sizeof(gpsData->UTCTime) - 1);
-                gpsData->UTCTime[sizeof(gpsData->UTCTime) - 1] = '\0';
+            if (j+1!=empty_data_pos[j])
+               { strncpy(gpsData->UTCTime, token, sizeof(gpsData->UTCTime) - 1);
+                gpsData->UTCTime[sizeof(gpsData->UTCTime) - 1] = '\0';}
+            else
+            strcpy(gpsData->UTCTime, empty );
+            printf("th time is: %s\n", gpsData->UTCTime);
                 break;
             case 2:
                 strncpy(gpsData->latitude, token, sizeof(gpsData->latitude));
@@ -116,6 +146,7 @@ int parse_gps_data(const char *packet, GPSData *gpsData) {
                 gpsData->timeSinceLastDifferentialCorrection = atof(token);
                 break;
             case 14:
+            
                 strncpy(gpsData->differentialStationID, token, sizeof(gpsData->differentialStationID));
                 break;
         }
@@ -126,4 +157,4 @@ int parse_gps_data(const char *packet, GPSData *gpsData) {
     // Copy calculated checksum
     strncpy(gpsData->checksum, calculated_checksum_hex, sizeof(gpsData->checksum));
     return 0;
-}
+        }
