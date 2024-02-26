@@ -132,6 +132,86 @@ void manage_missing(string packet) {
                                                             
 }
 
+void Tokenize_data(char final_sentence[])
+{   
+
+char *token=strtok(final_sentence,",");      // Using strtok function to tokenize sentence with a ',' as delimeter but it will only tokenize first paramter
+int param_no=0;
+while(token!=NULL)                           // Loop runns until Find Null Value as at the end;
+{ 
+    //enum Tokens {sentenceID, time, latitude, latDir, logitude, longitudeDir, QualityIndicator, Numofsattelites, horizontaldilution, altitude, altitudeUnits, meansealevelheight, geoidseparationUnits, timesincelastDC, differentialstationID};
+    
+    // In this loop every time new token is assigned to the individual parameter
+    switch(param_no)
+    {
+        case sentenceID:
+        GPSdata.sentenceID=token;
+        break;
+
+        case time:
+        GPSdata.time=token;
+        break;
+
+        case latitude:
+        GPSdata.latitude=token;
+        break;
+
+        case latDir:
+        GPSdata.latDir=token[0];
+        break;
+
+        case logitude:
+        GPSdata.longitude=token;
+        break;
+
+        case longitudeDir:
+        GPSdata.longDir=token[0];
+        break;
+
+        case QualityIndicator:
+        GPSdata.QualityIndicator=stoi(token);
+        break;
+
+        case Numofsattelites:
+        GPSdata.NumofSat=stoi(token);
+        break;
+
+        case horizontaldilution:
+        GPSdata.horizontaldilution=token;
+        break;
+
+        case altitude:
+        GPSdata.altitude=token;
+        break;
+
+        case altitudeUnits:
+        GPSdata.altitudeUnits=token[0];
+        break;
+
+        case meansealevelheight:
+        GPSdata.meansealevelheight=token;
+        break;
+
+        case geoidseparationUnits:
+        GPSdata.geoidseparationUnits=token[0];
+        break;
+
+        case timesincelastDC:
+        GPSdata.timesincelastDC=token;
+        break;
+
+        case differentialstationID:
+        GPSdata.differentialstationID=token;
+        break;
+
+    }
+ 
+    token=strtok(NULL,",");               // every time token is assigned it is started next to previous delimeter
+    param_no++;
+}
+    GPSdata.checksum=calculated_checksum_hex;          
+}
+
 int parse_gps_data(string Sentence) {
     
 
@@ -151,78 +231,4 @@ int parse_gps_data(string Sentence) {
         }
     }
 
-    // Tokenize packet data
-    char packet_copy[max_length];
-    strncpy(packet_copy, packet2, max_length);
-    char *token;
-    token = strtok(packet_copy, ",");
-    int j = 0;
-
-    // Parse tokenized data
-    while (token != NULL && j < 15) {
-        switch (j) {
-            case 0:
-
-                strncpy(gpsData->sentenceID, token, sizeof(gpsData->sentenceID) - 1);
-                gpsData->sentenceID[sizeof(gpsData->sentenceID) - 1] = '\0';
-                break;
-
-            case 1:
-            if (j+1!=empty_data_pos[j])
-               { strncpy(gpsData->UTCTime, token, sizeof(gpsData->UTCTime) - 1);
-                gpsData->UTCTime[sizeof(gpsData->UTCTime) - 1] = '\0';}
-            else
-            strcpy(gpsData->UTCTime, empty );
-            printf("th time is: %s\n", gpsData->UTCTime);
-                break;
-            case 2:
-                strncpy(gpsData->latitude, token, sizeof(gpsData->latitude));
-                gpsData->latitude[sizeof(gpsData->latitude) - 1] = '\0';
-                break;
-            case 3:
-                gpsData->latitudeDirection = token[0];
-                break;
-            case 4:
-                strncpy(gpsData->longitude, token, sizeof(gpsData->longitude) - 1);
-                gpsData->longitude[sizeof(gpsData->longitude) - 1] = '\0';
-                break;
-            case 5:
-                gpsData->longitudeDirection = token[0];
-                break;
-            case 6:
-                gpsData->QualityIndicator = atoi(token);
-                break;
-            case 7:
-                gpsData->Numofsatellites = atoi(token);
-                break;
-            case 8:
-                gpsData->horizontalDilution = atof(token);
-                break;
-            case 9:
-                gpsData->altitude = atof(token);
-                break;
-            case 10:
-                gpsData->altitudeUnits = token[0];
-                break;
-            case 11:
-                gpsData->meanSeaLevelHeight = atof(token);
-                break;
-            case 12:
-                gpsData->geoidSeparationUnits = token[0];
-                break;
-            case 13:
-                gpsData->timeSinceLastDifferentialCorrection = atof(token);
-                break;
-            case 14:
-            
-                strncpy(gpsData->differentialStationID, token, sizeof(gpsData->differentialStationID));
-                break;
-        }
-        token = strtok(NULL, ",");
-        j++;
-    }
-
-    // Copy calculated checksum
-    strncpy(gpsData->checksum, calculated_checksum_hex, sizeof(gpsData->checksum));
-    return 0;
         }
