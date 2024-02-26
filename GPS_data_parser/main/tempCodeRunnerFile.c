@@ -1,1 +1,0 @@
-g++ main.c GPS_data_parser_header.c

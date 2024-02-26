@@ -232,3 +232,22 @@ cout<<"time since last DC: "<<          GPSdata.timesincelastDC<<endl;
 cout<<"differential sation id: "<<GPSdata.differentialstationID<<endl;
 cout<<"checksum: "<<                           GPSdata.checksum<<endl;
 }
+
+bool unit_test1() // This function tests the values of the output by comparing with the input parameter and return true if all values are equal
+{
+    return (GPSdata.time == "002153.000") &&
+           (GPSdata.latitude == "3342.6618") &&
+           (GPSdata.latDir == 'N') &&
+           (GPSdata.longitude == "11751.3858") &&
+           (GPSdata.longDir == 'W') &&
+           (GPSdata.QualityIndicator == 1) &&
+           (GPSdata.NumofSat == 10) &&
+           (GPSdata.horizontaldilution == "1.2") &&
+           (GPSdata.altitude == "27.0") &&
+           (GPSdata.altitudeUnits == 'M') &&
+           (GPSdata.meansealevelheight == "-34.2") &&
+           (GPSdata.geoidseparationUnits == 'M') &&
+           (GPSdata.timesincelastDC == "#") &&
+           (GPSdata.differentialstationID == "0000") &&
+           (GPSdata.checksum == "5E");
+}
