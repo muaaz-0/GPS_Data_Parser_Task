@@ -14,8 +14,16 @@ int main()
   
 Start_Parsing(Sentence);
 print();
+if (unit_test1())
+{
+    cout<<"Test 1 Passed"<<endl;
+}
+else
+{
+cout<<"Test 1 Failed"<<endl;
+}
 
         return 0;
 }
-//------------------------------------------------ g++ main.c GPS_data_parser_header.c   ./a.exe
+
   
