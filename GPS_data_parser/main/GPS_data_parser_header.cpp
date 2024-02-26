@@ -74,6 +74,64 @@ char provided_checksum[2];
     return 0;
 }
 
+
+void manage_missing(string packet) {
+
+ // Extract packet data excluding '$' and '*'
+    char packet2[strlen(packet.c_str()) - 3];
+    int k = 0;
+    for (int i = 1; packet[i] != '*'; i++) {
+        packet2[k++] = packet[i];
+    }
+    packet2[k] = ','; // Adding comma at the last point to make last data as token
+    packet2[k+1]='\0';
+
+    cout<<packet2<<endl;
+
+//onwards this section the missing packets will be replaced by a '#'
+
+ char MIS = '#';
+    
+    int size= strlen(packet2);
+   
+    char final_sentence[size + 1];      //  Increase size by 1 to accommodate the new character
+
+    strcpy(final_sentence, packet2);    //  Copy the packet to final sentence that will contained managed data
+
+   
+
+    int mispos[size];                    //  Creating array to store position of missing character
+    int empty_count = 0;                 //  Counter to count the number of missing positions
+
+    for(int pos = 0; pos < size; pos++) {
+        if(final_sentence[pos] == ',' && final_sentence[pos + 1] == ',') // checks for the consective commas
+        {
+            mispos[empty_count] = pos + 1;                               // if found consecutive comma then store next position for missing data
+            empty_count++;
+        }
+    }
+    //cout << "Number of empty positions: " << empty_count << endl;
+
+    for(int j = 0; j < empty_count; j++)            //loop to store # on missing positions, run till no of empty elements
+    {                                               //As when first element is added the missing positions will be updated so there need to update the position
+
+        int pos=mispos[j] + j;                      // Update the missing position according to missing count
+                                                            
+        for(int i = size; i >= pos; i--)            // the loop will run in reverse order until position of missing element is found
+        {
+        final_sentence[i] = final_sentence[i - 1];  // elements are stored in one position next 
+    }
+    final_sentence[pos] = MIS;                      // replace # on the missing postion
+    size++;                                         // Increase size of array
+
+    }
+//cout<<"final sentence is : "<<final_sentence<<endl;
+   
+    Tokenize_data(final_sentence);                  // CALL THE FUNCTION TO PARSE FINAL SENTENCE
+
+                                                            
+}
+
 int parse_gps_data(string Sentence) {
     
 
