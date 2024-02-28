@@ -38,10 +38,10 @@ After that, the missing parameter is replaced by a # symbol, the first packet is
 Then the missing position is replaced by the # using the concept of adding a parameter between arrays. In case of multiple missing parameters, every time the # is added the position of the next missing parameter is modified as adding an element in the array will also modify the missing position of the next element. When all missing parameters are managed the Tokenize_data() function is called.
 
 In Tokenize_data() function:
-The sentence is tokenized based on the delimiter"," and each token is stored in the individual member of the struct.
+The sentence is tokenized based on the delimiter "," and each token is stored in the individual member of the struct.
 
 Print():
 A print function is defined to print the individual parameters when they are called.
 
 Unit_test1() function:
-A unit test function is defined which will check if the parsed data is correct of not if correct it will return true if not then return false.
+A unit test function is defined which will check if the parsed data is correct or not if correct it will return true if not then return false.
