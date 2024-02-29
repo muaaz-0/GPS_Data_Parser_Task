@@ -3,7 +3,7 @@
 #include <stdio.h>
 using namespace std;
 #include "GPS_data_parser_header.h"
-
+GPSData GPSdata;
 
 char calculated_checksum_hex[3];
 //GPSData GPSdata;                             //Creating the variable of Structure

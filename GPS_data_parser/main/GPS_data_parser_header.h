@@ -1,3 +1,5 @@
+#ifndef GPS_DATA_PARSER_HEADER_H
+#define GPS_DATA_PARSER_HEADER_H
 
 enum Tokens {sentenceID, time, latitude, latDir, logitude, longitudeDir, QualityIndicator, Numofsattelites, horizontaldilution, altitude, altitudeUnits, meansealevelheight, geoidseparationUnits, timesincelastDC, differentialstationID};// enumeration of the tokens to use in switch statement
 
@@ -25,4 +27,10 @@ struct GPSData{
     string differentialstationID;
     string checksum;
 
-}GPSdata;
+};
+
+extern GPSData GPSdata;
+
+// Other function declarations...
+
+#endif 
