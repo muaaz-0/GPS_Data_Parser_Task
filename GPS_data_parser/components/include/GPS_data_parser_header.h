@@ -1,9 +1,9 @@
 
 enum Tokens {sentenceID, time, latitude, latDir, logitude, longitudeDir, QualityIndicator, Numofsattelites, horizontaldilution, altitude, altitudeUnits, meansealevelheight, geoidseparationUnits, timesincelastDC, differentialstationID};// enumeration of the tokens to use in switch statement
 
-int Start_Parsing(string packet);
-void Tokenize_data(char final_sentence[]);
+int Parse_gps_Data(string packet);
 void manage_missing(string packet);
+void Tokenize_data(char final_sentence[]);
 bool unit_test1();
 void print();
 

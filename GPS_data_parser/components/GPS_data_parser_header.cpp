@@ -7,7 +7,7 @@ using namespace std;
 
 char calculated_checksum_hex[3];
 GPSData GPSdata;                             //Creating the variable of Structure
-int Start_Parsing(string packet)
+int Parse_gps_Data(string packet)
 
 {
     // Calculate checksum
@@ -28,7 +28,7 @@ char provided_checksum[2];
          // check if steric is present or not if not then no checksum found
     
 
-    if (packet[i] != '*')                   //If steric is not found this means sentence is not correct
+   else                 //If steric is not found this means sentence is not correct
     {
         cout<<"Checksum Not Found! '-': "<<endl;
         return 0;
