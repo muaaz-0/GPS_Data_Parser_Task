@@ -1,2 +1,2 @@
-idf_component_register(SRCS "GPS_data_parser_header.cpp"
+idf_component_register(SRCS
                     INCLUDE_DIRS "include")

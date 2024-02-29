@@ -4,7 +4,7 @@ enum Tokens {sentenceID, time, latitude, latDir, logitude, longitudeDir, Quality
 int Parse_gps_Data(string packet);
 void manage_missing(string packet);
 void Tokenize_data(char final_sentence[]);
-bool unit_test1();
+
 void print();
 
 struct GPSData{
@@ -25,4 +25,4 @@ struct GPSData{
     string differentialstationID;
     string checksum;
 
-};
+}GPSdata;
