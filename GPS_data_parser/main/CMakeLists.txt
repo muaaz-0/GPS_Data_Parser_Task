@@ -1,12 +1,13 @@
-# For more information about build system see
-# https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html
-# The following five lines of boilerplate have to be in your project's
-# CMakeLists in this exact order for cmake to work correctly
 cmake_minimum_required(VERSION 3.16)
+set(CMAKE_CXX_STANDARD 11)
 
-# Our Project
-set(SOURCE_FILES
-    main.cpp
-    GPS_data_parser_header.cpp)
+# Include ESP-IDF build system
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+project(my_project_name)
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+# Add your source files to the project
+idf_component_register(SRCS "main.cpp" "GPS_data_parser_header.cpp"
+                       INCLUDE_DIRS ".")
+
+# Include directories
+target_include_directories(${COMPONENT_LIB} INTERFACE .)
