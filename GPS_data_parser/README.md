@@ -1,5 +1,5 @@
+The project folder is in GPS_data_parser
 The project consists of three files containing code:
-
 "main.cpp"
 "GPS_data_parser_header.cpp"
 "GPS_data_parser_header.h"
