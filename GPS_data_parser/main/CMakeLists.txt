@@ -6,7 +6,7 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(my_project_name)
 
 # Add your source files to the project
-idf_component_register(SRCS "main.cpp" "GPS_data_parser_header.cpp"
+idf_component_register(SRCS "unitTest.cpp"
                        INCLUDE_DIRS ".")
 
 # Include directories

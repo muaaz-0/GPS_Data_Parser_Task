@@ -148,7 +148,7 @@ while(token!=NULL)                           // Loop runns until Find Null Value
         GPSdata.sentenceID=token;
         break;
 
-        case time:
+        case timeEnum:
         GPSdata.time=token;
         break;
 

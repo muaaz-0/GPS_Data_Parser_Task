@@ -1,0 +1,43 @@
+fatal: no submodule mapping found in .gitmodules for path 'examples/get-started/task'
+CMake Error at C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/component.cmake:224 (message):
+  CMake Warning (dev) at build_properties.temp.cmake:8:
+
+    Syntax Warning in cmake code at column 51
+
+  
+
+    Argument not separated from preceding token by whitespace.
+
+  Call Stack (most recent call first):
+
+    C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/scripts/component_get_requirements.cmake:3 (include)
+
+  This warning is for project developers.  Use -Wno-dev to suppress it.
+
+  
+
+  CMake Error at
+  C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/3.24.0/share/cmake-3.24/Modules/ExternalProject.cmake:1253
+  (define_property):
+
+    define_property command is not scriptable
+
+  Call Stack (most recent call first):
+
+    C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/kconfig.cmake:1 (include)
+    C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/idf.cmake:43 (include)
+    C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/project.cmake:12 (include)
+    C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/main/CMakeLists.txt:5 (include)
+    C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/scripts/component_get_requirements.cmake:106 (include)
+    C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/scripts/component_get_requirements.cmake:124 (__component_get_requirements)
+
+  
+
+  
+
+Call Stack (most recent call first):
+  C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/build.cmake:553 (__component_get_requirements)
+  C:/Espressif/frameworks/esp-idf-v5.0.4/tools/cmake/project.cmake:530 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+
