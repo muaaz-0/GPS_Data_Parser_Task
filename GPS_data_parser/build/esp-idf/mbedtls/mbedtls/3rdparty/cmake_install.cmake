@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/92335/esp/v5.0.5/esp-idf/components/mbedtls/mbedtls/3rdparty
+# Install script for directory: C:/Espressif/frameworks/esp-idf-v5.0.4/components/mbedtls/mbedtls/3rdparty
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,13 +34,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/92335/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-objdump.exe")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/esp-idf/mbedtls/mbedtls/3rdparty/everest/cmake_install.cmake")
-  include("C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/esp-idf/mbedtls/mbedtls/3rdparty/p256-m/cmake_install.cmake")
-
+  set(CMAKE_OBJDUMP "C:/Espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-objdump.exe")
 endif()
 

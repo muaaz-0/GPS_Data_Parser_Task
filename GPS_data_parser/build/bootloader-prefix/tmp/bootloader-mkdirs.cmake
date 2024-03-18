@@ -4,19 +4,19 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "C:/Users/92335/esp/v5.0.5/esp-idf/components/bootloader/subproject"
-  "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader"
-  "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader-prefix"
-  "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader-prefix/tmp"
-  "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp"
-  "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader-prefix/src"
-  "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Espressif/frameworks/esp-idf-v5.0.4/components/bootloader/subproject"
+  "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader"
+  "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader-prefix"
+  "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader-prefix/tmp"
+  "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader-prefix/src"
+  "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()

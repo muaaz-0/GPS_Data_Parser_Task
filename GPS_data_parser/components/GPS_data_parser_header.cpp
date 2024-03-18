@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
+#include "esp_log.h"
 using namespace std;
 #include "GPS_data_parser_header.h"
 GPSData GPSdata;
@@ -68,14 +69,14 @@ char provided_checksum[2];
         manage_missing(packet);  //if packet integrity valid then manage manage missing function is called
     } else {
         cout<<"Packet integrity not valid: chksum \n"<< calculated_checksum_hex<<endl;   // if packet intefrity is not valid then return 0
-        //return 0;
+        return 0;
         //manage_missing(packet); 
     }
     return 0;
 }
 
 
-void manage_missing(string packet) {
+int manage_missing(string packet) {
 
  // Extract packet data excluding '$' and '*'
     char packet2[strlen(packet.c_str()) - 3];
@@ -128,11 +129,11 @@ void manage_missing(string packet) {
 //cout<<"final sentence is : "<<final_sentence<<endl;
    
     Tokenize_data(final_sentence);                  // CALL THE FUNCTION TO PARSE FINAL SENTENCE
-
+return 0;
                                                             
 }
 
-void Tokenize_data(char final_sentence[])
+int Tokenize_data(char final_sentence[])
 {   
 
 char *token=strtok(final_sentence,",");      // Using strtok function to tokenize sentence with a ',' as delimeter but it will only tokenize first paramter
@@ -209,27 +210,30 @@ while(token!=NULL)                           // Loop runns until Find Null Value
     token=strtok(NULL,",");               // every time token is assigned it is started next to previous delimeter
     param_no++;
 }
-    GPSdata.checksum=calculated_checksum_hex;          
+    GPSdata.checksum=calculated_checksum_hex; 
+    return 0;         
 }
+
+
 
 void print()      // Print the parameters of the GGA sentence
 {
     
-cout<<"sentence ID: "<<                      GPSdata.sentenceID<<endl;
-cout<<"time: "<<                                   GPSdata.time<<endl;
-cout<<"latitude: "<<                           GPSdata.latitude<<endl;
-cout<<"latitude Direction: "<<                   GPSdata.latDir<<endl;
-cout<<"longitude: "<<                         GPSdata.longitude<<endl;
-cout<<"longitude Direction: "<<                 GPSdata.longDir<<endl;
-cout<<"Quality Indicator: "<<          GPSdata.QualityIndicator<<endl;
-cout<<"No of satellites: "<<                   GPSdata.NumofSat<<endl;
-cout<<"horizontal dilution: "<<      GPSdata.horizontaldilution<<endl;
-cout<<"altitude: "<<                           GPSdata.altitude<<endl;
-cout<<"altitude units: "<<                GPSdata.altitudeUnits<<endl;
-cout<<"mean sea level height: "<<    GPSdata.meansealevelheight<<endl;
+cout<<"sentence ID: "<<                    GPSdata.sentenceID<<endl;
+cout<<"time: "<<                                 GPSdata.time<<endl;
+cout<<"latitude: "<<                         GPSdata.latitude<<endl;
+cout<<"latitude Direction: "<<                 GPSdata.latDir<<endl;
+cout<<"longitude: "<<                        GPSdata.longitude<<endl;
+cout<<"longitude Direction: "<<                GPSdata.longDir<<endl;
+cout<<"Quality Indicator: "<<        GPSdata.QualityIndicator<<endl;
+cout<<"No of satellites: "<<                 GPSdata.NumofSat<<endl;
+cout<<"horizontal dilution: "<<    GPSdata.horizontaldilution<<endl;
+cout<<"altitude: "<<                         GPSdata.altitude<<endl;
+cout<<"altitude units: "<<              GPSdata.altitudeUnits<<endl;
+cout<<"mean sea level height: "<<  GPSdata.meansealevelheight<<endl;
 cout<<"geoideal separation unit: "<<GPSdata.geoidseparationUnits<<endl;
-cout<<"time since last DC: "<<          GPSdata.timesincelastDC<<endl;
+cout<<"time since last DC: "<<        GPSdata.timesincelastDC<<endl;
 cout<<"differential sation id: "<<GPSdata.differentialstationID<<endl;
-cout<<"checksum: "<<                           GPSdata.checksum<<endl;
+cout<<"checksum: "<<                            GPSdata.checksum<<endl;
 }
 

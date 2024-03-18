@@ -2980,8 +2980,8 @@
             },
             {
                 "children": [],
-                "depends_on": "SECURE_SIGNED_APPS && SECURE_SIGNED_APPS_ECDSA_SCHEME && !SECURE_BOOT_BUILD_SIGNED_BINARIES",
-                "help": "Path to a public key file used to verify signed images.\nSecure Boot V1: This ECDSA public key is compiled into the bootloader and/or\napp, to verify app images.\n\nKey file is in raw binary format, and can be extracted from a\nPEM formatted private key using the espsecure.py\nextract_public_key command.\n\nRefer to the Secure Boot section of the ESP-IDF Programmer's Guide for this version before enabling.",
+                "depends_on": "SECURE_SIGNED_APPS && !SECURE_BOOT_BUILD_SIGNED_BINARIES && !SECURE_SIGNED_APPS_RSA_SCHEME",
+                "help": "Path to a public key file used to verify signed images.\nSecure Boot V1: This ECDSA public key is compiled into the bootloader and/or\napp, to verify app images.\nSecure Boot V2: This RSA public key is compiled into the signature block at\nthe end of the bootloader/app.\n\nKey file is in raw binary format, and can be extracted from a\nPEM formatted private key using the espsecure.py\nextract_public_key command.\n\nRefer to the Secure Boot section of the ESP-IDF Programmer's Guide for this version before enabling.",
                 "id": "SECURE_BOOT_VERIFICATION_KEY",
                 "name": "SECURE_BOOT_VERIFICATION_KEY",
                 "range": null,
@@ -4752,16 +4752,6 @@
                                 ],
                                 "title": "Extra delay in deep sleep wake stub (in us)",
                                 "type": "int"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "When using rtc gpio wakeup source during deepsleep without external pull-up/downs, you may want to\nmake use of the internal ones.",
-                                "id": "ESP_SLEEP_GPIO_ENABLE_INTERNAL_RESISTORS",
-                                "name": "ESP_SLEEP_GPIO_ENABLE_INTERNAL_RESISTORS",
-                                "range": null,
-                                "title": "Allow to enable internal pull-up/downs for the Deep-Sleep wakeup IOs",
-                                "type": "bool"
                             }
                         ],
                         "depends_on": null,
@@ -7589,26 +7579,6 @@
                         "help": "This option is invisible, and will be selected automatically\nwhen ``ESPTOOLPY_FLASHFREQ_120M`` is selected.",
                         "id": "SPI_FLASH_HPM_ENABLE",
                         "name": "SPI_FLASH_HPM_ENABLE",
-                        "range": null,
-                        "title": null,
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "This is a helper config for 32bits address flash. Invisible for users.",
-                        "id": "SPI_FLASH_32BIT_ADDRESS",
-                        "name": "SPI_FLASH_32BIT_ADDRESS",
-                        "range": null,
-                        "title": null,
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "SPI_FLASH_OCTAL_32BIT_ADDR_ENABLE",
-                        "name": "SPI_FLASH_OCTAL_32BIT_ADDR_ENABLE",
                         "range": null,
                         "title": null,
                         "type": "bool"

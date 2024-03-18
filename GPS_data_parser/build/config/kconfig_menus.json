@@ -2980,8 +2980,8 @@
             },
             {
                 "children": [],
-                "depends_on": "SECURE_SIGNED_APPS && SECURE_SIGNED_APPS_ECDSA_SCHEME && !SECURE_BOOT_BUILD_SIGNED_BINARIES",
-                "help": "Path to a public key file used to verify signed images.\nSecure Boot V1: This ECDSA public key is compiled into the bootloader and/or\napp, to verify app images.\n\nKey file is in raw binary format, and can be extracted from a\nPEM formatted private key using the espsecure.py\nextract_public_key command.\n\nRefer to the Secure Boot section of the ESP-IDF Programmer's Guide for this version before enabling.",
+                "depends_on": "SECURE_SIGNED_APPS && !SECURE_BOOT_BUILD_SIGNED_BINARIES && !SECURE_SIGNED_APPS_RSA_SCHEME",
+                "help": "Path to a public key file used to verify signed images.\nSecure Boot V1: This ECDSA public key is compiled into the bootloader and/or\napp, to verify app images.\nSecure Boot V2: This RSA public key is compiled into the signature block at\nthe end of the bootloader/app.\n\nKey file is in raw binary format, and can be extracted from a\nPEM formatted private key using the espsecure.py\nextract_public_key command.\n\nRefer to the Secure Boot section of the ESP-IDF Programmer's Guide for this version before enabling.",
                 "id": "SECURE_BOOT_VERIFICATION_KEY",
                 "name": "SECURE_BOOT_VERIFICATION_KEY",
                 "range": null,
@@ -4857,18 +4857,7 @@
                         "type": "menu"
                     },
                     {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "APPTRACE_GCOV_ENABLE",
-                                "help": "Configures stack size of Gcov dump task",
-                                "id": "APPTRACE_GCOV_DUMP_TASK_STACK_SIZE",
-                                "name": "APPTRACE_GCOV_DUMP_TASK_STACK_SIZE",
-                                "range": null,
-                                "title": "Gcov dump task stack size",
-                                "type": "int"
-                            }
-                        ],
+                        "children": [],
                         "depends_on": "APPTRACE_ENABLE && !APPTRACE_SV_ENABLE",
                         "help": "Enables support for GCOV data transfer to host.",
                         "id": "APPTRACE_GCOV_ENABLE",
@@ -5083,24 +5072,34 @@
                                     {
                                         "children": [
                                             {
-                                                "children": [],
+                                                "children": [
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice BT_HFP_ROLE>",
+                                                        "help": null,
+                                                        "id": "BT_HFP_CLIENT_ENABLE",
+                                                        "name": "BT_HFP_CLIENT_ENABLE",
+                                                        "range": null,
+                                                        "title": "Hands Free Unit",
+                                                        "type": "bool"
+                                                    },
+                                                    {
+                                                        "children": [],
+                                                        "depends_on": "<choice BT_HFP_ROLE>",
+                                                        "help": null,
+                                                        "id": "BT_HFP_AG_ENABLE",
+                                                        "name": "BT_HFP_AG_ENABLE",
+                                                        "range": null,
+                                                        "title": "Audio Gateway",
+                                                        "type": "bool"
+                                                    }
+                                                ],
                                                 "depends_on": "BT_HFP_ENABLE && BT_BLUEDROID_ENABLED",
                                                 "help": null,
-                                                "id": "BT_HFP_CLIENT_ENABLE",
-                                                "name": "BT_HFP_CLIENT_ENABLE",
-                                                "range": null,
-                                                "title": "Hands Free Unit",
-                                                "type": "bool"
-                                            },
-                                            {
-                                                "children": [],
-                                                "depends_on": "BT_HFP_ENABLE && BT_BLUEDROID_ENABLED",
-                                                "help": null,
-                                                "id": "BT_HFP_AG_ENABLE",
-                                                "name": "BT_HFP_AG_ENABLE",
-                                                "range": null,
-                                                "title": "Audio Gateway",
-                                                "type": "bool"
+                                                "id": "component-config-bluetooth-bluedroid-options-classic-bluetooth-hands-free-handset-profile-hands-free-profile-role-configuration",
+                                                "name": "BT_HFP_ROLE",
+                                                "title": "Hands-free Profile Role configuration",
+                                                "type": "choice"
                                             },
                                             {
                                                 "children": [
@@ -5134,13 +5133,12 @@
                                             }
                                         ],
                                         "depends_on": "BT_CLASSIC_ENABLED && BT_BLUEDROID_ENABLED",
-                                        "help": "Hands Free Unit and Audio Gateway can be included simultaneously\nbut they cannot run simultaneously due to internal limitations.",
+                                        "help": null,
                                         "id": "BT_HFP_ENABLE",
-                                        "is_menuconfig": true,
                                         "name": "BT_HFP_ENABLE",
                                         "range": null,
                                         "title": "Hands Free/Handset Profile",
-                                        "type": "menu"
+                                        "type": "bool"
                                     }
                                 ],
                                 "depends_on": "BT_BLUEDROID_ENABLED && IDF_TARGET_ESP32 && BT_BLUEDROID_ENABLED",
@@ -5164,34 +5162,43 @@
                             {
                                 "children": [
                                     {
-                                        "children": [],
+                                        "children": [
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice BT_HID_ROLE>",
+                                                "help": "This enables the BT HID Host",
+                                                "id": "BT_HID_HOST_ENABLED",
+                                                "name": "BT_HID_HOST_ENABLED",
+                                                "range": null,
+                                                "title": "Classic BT HID Host",
+                                                "type": "bool"
+                                            },
+                                            {
+                                                "children": [],
+                                                "depends_on": "<choice BT_HID_ROLE>",
+                                                "help": "This enables the BT HID Device",
+                                                "id": "BT_HID_DEVICE_ENABLED",
+                                                "name": "BT_HID_DEVICE_ENABLED",
+                                                "range": null,
+                                                "title": "Classic BT HID Device",
+                                                "type": "bool"
+                                            }
+                                        ],
                                         "depends_on": "BT_HID_ENABLED && BT_BLUEDROID_ENABLED",
-                                        "help": "This enables the BT HID Host",
-                                        "id": "BT_HID_HOST_ENABLED",
-                                        "name": "BT_HID_HOST_ENABLED",
-                                        "range": null,
-                                        "title": "Classic BT HID Host",
-                                        "type": "bool"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BT_HID_ENABLED && BT_BLUEDROID_ENABLED",
-                                        "help": "This enables the BT HID Device",
-                                        "id": "BT_HID_DEVICE_ENABLED",
-                                        "name": "BT_HID_DEVICE_ENABLED",
-                                        "range": null,
-                                        "title": "Classic BT HID Device",
-                                        "type": "bool"
+                                        "help": null,
+                                        "id": "component-config-bluetooth-bluedroid-options-classic-bt-hid-profile-role-configuration",
+                                        "name": "BT_HID_ROLE",
+                                        "title": "Profile Role configuration",
+                                        "type": "choice"
                                     }
                                 ],
                                 "depends_on": "BT_CLASSIC_ENABLED && BT_BLUEDROID_ENABLED",
                                 "help": "This enables the BT HID Host",
                                 "id": "BT_HID_ENABLED",
-                                "is_menuconfig": true,
                                 "name": "BT_HID_ENABLED",
                                 "range": null,
                                 "title": "Classic BT HID",
-                                "type": "menu"
+                                "type": "bool"
                             },
                             {
                                 "children": [],
@@ -5286,36 +5293,6 @@
                                                 "range": null,
                                                 "title": null,
                                                 "type": "int"
-                                            },
-                                            {
-                                                "children": [],
-                                                "depends_on": "BT_GATTS_ENABLE && BT_BLUEDROID_ENABLED",
-                                                "help": "This option enable gatt robust caching feature on server",
-                                                "id": "BT_GATTS_ROBUST_CACHING_ENABLED",
-                                                "name": "BT_GATTS_ROBUST_CACHING_ENABLED",
-                                                "range": null,
-                                                "title": "Enable Robust Caching on Server Side",
-                                                "type": "bool"
-                                            },
-                                            {
-                                                "children": [],
-                                                "depends_on": "BT_GATTS_ENABLE && BT_BLUEDROID_ENABLED",
-                                                "help": "Enabling this option allows remote GATT clients to write device name",
-                                                "id": "BT_GATTS_DEVICE_NAME_WRITABLE",
-                                                "name": "BT_GATTS_DEVICE_NAME_WRITABLE",
-                                                "range": null,
-                                                "title": "Allow to write device name by GATT clients",
-                                                "type": "bool"
-                                            },
-                                            {
-                                                "children": [],
-                                                "depends_on": "BT_GATTS_ENABLE && BT_BLUEDROID_ENABLED",
-                                                "help": "Enabling this option allows remote GATT clients to write appearance",
-                                                "id": "BT_GATTS_APPEARANCE_WRITABLE",
-                                                "name": "BT_GATTS_APPEARANCE_WRITABLE",
-                                                "range": null,
-                                                "title": "Allow to write appearance by GATT clients",
-                                                "type": "bool"
                                             }
                                         ],
                                         "depends_on": "BT_BLE_ENABLED && BT_BLUEDROID_ENABLED",
@@ -5336,16 +5313,6 @@
                                                 "name": "BT_GATTC_MAX_CACHE_CHAR",
                                                 "range": null,
                                                 "title": "Max gattc cache characteristic for discover",
-                                                "type": "int"
-                                            },
-                                            {
-                                                "children": [],
-                                                "depends_on": "BT_GATTC_ENABLE && BT_BLUEDROID_ENABLED",
-                                                "help": "Maximum GATTC notify(indication) register number",
-                                                "id": "BT_GATTC_NOTIF_REG_MAX",
-                                                "name": "BT_GATTC_NOTIF_REG_MAX",
-                                                "range": null,
-                                                "title": "Max gattc notify(indication) register number",
                                                 "type": "int"
                                             },
                                             {
@@ -7417,16 +7384,6 @@
                             },
                             {
                                 "children": [],
-                                "depends_on": "BT_BLUEDROID_ENABLED && BT_BLUEDROID_ENABLED",
-                                "help": "This set RPA timeout of Controller and Host.\nDefault is 900 s (15 minutes). Range is 1 s to 1 hour (3600 s).",
-                                "id": "BT_BLE_RPA_TIMEOUT",
-                                "name": "BT_BLE_RPA_TIMEOUT",
-                                "range": null,
-                                "title": "Timeout of resolvable private address",
-                                "type": "int"
-                            },
-                            {
-                                "children": [],
                                 "depends_on": "BT_BLUEDROID_ENABLED && (IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32S3 || SOC_ESP_NIMBLE_CONTROLLER) && BT_BLUEDROID_ENABLED",
                                 "help": "This enables BLE 5.0 features, this option only support esp32c3/esp32s3 chip",
                                 "id": "BT_BLE_50_FEATURES_SUPPORTED",
@@ -7443,36 +7400,6 @@
                                 "name": "BT_BLE_42_FEATURES_SUPPORTED",
                                 "range": null,
                                 "title": "Enable BLE 4.2 features",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "BT_BLUEDROID_ENABLED && BT_BLE_50_FEATURES_SUPPORTED && SOC_ESP_NIMBLE_CONTROLLER && BT_BLUEDROID_ENABLED",
-                                "help": "This enables BLE periodic advertising sync transfer feature",
-                                "id": "BT_BLE_FEAT_PERIODIC_ADV_SYNC_TRANSFER",
-                                "name": "BT_BLE_FEAT_PERIODIC_ADV_SYNC_TRANSFER",
-                                "range": null,
-                                "title": "Enable BLE periodic advertising sync transfer feature",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "BT_BLUEDROID_ENABLED && BT_BLE_50_FEATURES_SUPPORTED && SOC_ESP_NIMBLE_CONTROLLER && BT_BLUEDROID_ENABLED",
-                                "help": "Enable the periodic advertising enhancements",
-                                "id": "BT_BLE_FEAT_PERIODIC_ADV_ENH",
-                                "name": "BT_BLE_FEAT_PERIODIC_ADV_ENH",
-                                "range": null,
-                                "title": "Enable periodic adv enhancements(adi support)",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "BT_BLUEDROID_ENABLED && BT_BLUEDROID_ENABLED",
-                                "help": "This enable BLE high duty advertising interval feature",
-                                "id": "BT_BLE_HIGH_DUTY_ADV_INTERVAL",
-                                "name": "BT_BLE_HIGH_DUTY_ADV_INTERVAL",
-                                "range": null,
-                                "title": "Enable BLE high duty advertising interval feature",
                                 "type": "bool"
                             }
                         ],
@@ -8294,6 +8221,46 @@
                                 "type": "menu"
                             },
                             {
+                                "children": [
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM>",
+                                        "help": "Always enable the limitation on max tx/rx time for Coded-PHY connection",
+                                        "id": "BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM_EN",
+                                        "name": "BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM_EN",
+                                        "range": null,
+                                        "title": "Force Enable",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM>",
+                                        "help": "Disable the limitation on max tx/rx time for Coded-PHY connection",
+                                        "id": "BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM_DIS",
+                                        "name": "BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM_DIS",
+                                        "range": null,
+                                        "title": "Force Disable",
+                                        "type": "bool"
+                                    }
+                                ],
+                                "depends_on": "ESP32_WIFI_SW_COEXIST_ENABLE && BT_NIMBLE_ENABLED && BT_NIMBLE_ENABLED",
+                                "help": "When using PHY-Coded in BLE connection, limitation on max tx/rx time can be applied to\nbetter avoid dramatic performance deterioration of Wi-Fi.",
+                                "id": "component-config-bluetooth-nimble-options-coexistence-limit-on-max-tx-rx-time-for-coded-phy-connection",
+                                "name": "BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM",
+                                "title": "Coexistence: limit on MAX Tx/Rx time for coded-PHY connection",
+                                "type": "choice"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "BT_NIMBLE_ENABLED",
+                                "help": null,
+                                "id": "BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM_EFF",
+                                "name": "BT_NIMBLE_COEX_PHY_CODED_TX_RX_TLIM_EFF",
+                                "range": null,
+                                "title": null,
+                                "type": "int"
+                            },
+                            {
                                 "children": [],
                                 "depends_on": "BT_NIMBLE_ENABLED && BT_NIMBLE_ENABLED",
                                 "help": "BLE list size",
@@ -8351,26 +8318,6 @@
                                 "name": "BT_NIMBLE_BLE_GATT_BLOB_TRANSFER",
                                 "range": null,
                                 "title": "Blob transfer",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "BT_NIMBLE_ENABLED && BT_NIMBLE_ENABLED",
-                                "help": "This enable BLE high duty advertising interval feature",
-                                "id": "BT_NIMBLE_HIGH_DUTY_ADV_ITVL",
-                                "name": "BT_NIMBLE_HIGH_DUTY_ADV_ITVL",
-                                "range": null,
-                                "title": "Enable BLE high duty advertising interval feature",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "BT_NIMBLE_ENABLED && BT_NIMBLE_ENABLED",
-                                "help": "When scanning and scan duplicate is not enabled, if there are a lot of adv packets around\nor application layer handling adv packets is slow, it will cause the controller memory\nto run out. if enabled, adv packets will be lost when host queue is congested.",
-                                "id": "BT_NIMBLE_HOST_QUEUE_CONG_CHECK",
-                                "name": "BT_NIMBLE_HOST_QUEUE_CONG_CHECK",
-                                "range": null,
-                                "title": "BLE queue congestion check",
                                 "type": "bool"
                             }
                         ],
@@ -8744,16 +8691,6 @@
                                         "range": null,
                                         "title": "UART Baudrate for HCI",
                                         "type": "int"
-                                    },
-                                    {
-                                        "children": [],
-                                        "depends_on": "BTDM_CTRL_HCI_MODE_UART_H4 && BT_CONTROLLER_ENABLED",
-                                        "help": null,
-                                        "id": "BTDM_CTRL_HCI_UART_FLOW_CTRL_EN",
-                                        "name": "BTDM_CTRL_HCI_UART_FLOW_CTRL_EN",
-                                        "range": null,
-                                        "title": "Enable UART flow control",
-                                        "type": "bool"
                                     }
                                 ],
                                 "depends_on": "BT_CONTROLLER_ENABLED",
@@ -9048,16 +8985,6 @@
                         "id": "component-config-bluetooth-controller-options",
                         "title": "Controller Options",
                         "type": "menu"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "BT_ENABLED && BT_LE_RELEASE_IRAM_SUPPORTED",
-                        "help": "This option release Bluetooth text section and merge Bluetooth data, bss & text into\na large free heap region when esp_bt_mem_release is called, total saving ~21kB or more of IRAM.\nESP32-C2 only 3 configurable PMP entries available, rest of them are hard-coded.\nWe cannot split the memory into 3 different regions (IRAM, BLE-IRAM, DRAM).\nSo this option will disable the PMP (ESP_SYSTEM_PMP_IDRAM_SPLIT)",
-                        "id": "BT_RELEASE_IRAM",
-                        "name": "BT_RELEASE_IRAM",
-                        "range": null,
-                        "title": "Release Bluetooth text (READ DOCS FIRST)",
-                        "type": "bool"
                     }
                 ],
                 "depends_on": null,
@@ -10998,16 +10925,6 @@
                             {
                                 "children": [],
                                 "depends_on": "SOC_RMT_SUPPORTED",
-                                "help": "Place RMT receive function into IRAM,\nso that the receive function can be IRAM-safe and able to be called when the flash cache is disabled.\nEnabling this option can improve driver performance as well.",
-                                "id": "RMT_RECV_FUNC_IN_IRAM",
-                                "name": "RMT_RECV_FUNC_IN_IRAM",
-                                "range": null,
-                                "title": "Place RMT receive function into IRAM",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "SOC_RMT_SUPPORTED",
                                 "help": "Wether to suppress the deprecation warnings when using legacy rmt driver (driver/rmt.h).\nIf you want to continue using the legacy driver, and don't want to see related deprecation warnings,\nyou can enable this option.",
                                 "id": "RMT_SUPPRESS_DEPRECATE_WARN",
                                 "name": "RMT_SUPPRESS_DEPRECATE_WARN",
@@ -11663,16 +11580,6 @@
                                 "range": null,
                                 "title": "Enable software flow control",
                                 "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "ETH_USE_ESP32_EMAC",
-                                "help": "If enabled, functions related to RX/TX are placed into IRAM. It can improve Ethernet throughput.\nIf disabled, all functions are placed into FLASH.",
-                                "id": "ETH_IRAM_OPTIMIZATION",
-                                "name": "ETH_IRAM_OPTIMIZATION",
-                                "range": null,
-                                "title": "Enable IRAM optimization",
-                                "type": "bool"
                             }
                         ],
                         "depends_on": "IDF_TARGET_ESP32",
@@ -12316,16 +12223,6 @@
                                 ],
                                 "title": "Extra delay in deep sleep wake stub (in us)",
                                 "type": "int"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "When using rtc gpio wakeup source during deepsleep without external pull-up/downs, you may want to\nmake use of the internal ones.",
-                                "id": "ESP_SLEEP_GPIO_ENABLE_INTERNAL_RESISTORS",
-                                "name": "ESP_SLEEP_GPIO_ENABLE_INTERNAL_RESISTORS",
-                                "range": null,
-                                "title": "Allow to enable internal pull-up/downs for the Deep-Sleep wakeup IOs",
-                                "type": "bool"
                             }
                         ],
                         "depends_on": null,
@@ -13042,16 +12939,16 @@
                             {
                                 "children": [],
                                 "depends_on": "IDF_TARGET_ESP32S3 && PM_POWER_DOWN_CPU_IN_LIGHT_SLEEP",
-                                "help": "Cache tag memory and CPU both belong to the CPU power domain. ESP chips supports saving and restoring Cache\ntag memory before and after sleep, this feature supports accesses to the external memory that was cached\nbefore sleep still be cached when the CPU wakes up from a powerdowned CPU lightsleep. This option controls\nthe restore method for Cache tag memory in lightsleep.\nIf this option is enabled, the I/D-cache tag memory will be backuped to the internal RAM before sleep and\nrestored upon wakeup. Depending on the the cache configuration, if this option is enabled, it will consume\nup to 9 KB of internal RAM.\nIf this option is disabled, all cached data won't be kept after sleep, the DCache will be writeback before\nsleep and invalid all cached data after sleep, all accesses to external memory(Flash/PSRAM) will be cache\nmissed after waking up, resulting in performance degradation due to increased memory accesses latency.",
+                                "help": "If enabled, the I/D-cache tag memory will be retained in light sleep. Depending on the the\ncache configuration, if this option is enabled, it will consume up to 9 KB of internal RAM.",
                                 "id": "PM_POWER_DOWN_TAGMEM_IN_LIGHT_SLEEP",
                                 "name": "PM_POWER_DOWN_TAGMEM_IN_LIGHT_SLEEP",
                                 "range": null,
-                                "title": "Restore I/D-cache tag memory after power down CPU light sleep",
+                                "title": "Power down I/D-cache tag memory in light sleep",
                                 "type": "bool"
                             }
                         ],
                         "depends_on": "IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32S3",
-                        "help": "If enabled, the CPU will be powered down in light sleep, ESP chips supports saving and restoring CPU's\nrunning context before and after light sleep, the feature provides applications with seamless CPU\npowerdowned lightsleep without user awareness.\nBut this will takes up some internal memory. On esp32c3 soc, enabling this option will consume 1.68 KB\nof internal RAM and will reduce sleep current consumption by about 100 uA. On esp32s3 soc, enabling this\noption will consume 8.58 KB of internal RAM and will reduce sleep current consumption by about 650 uA.",
+                        "help": "If enabled, the CPU will be powered down in light sleep. On esp32c3 soc, enabling this\noption will consume 1.68 KB of internal RAM and will reduce sleep current consumption\nby about 100 uA. On esp32s3 soc, enabling this option will consume 8.58 KB of internal\nRAM and will reduce sleep current consumption by about 650 uA.",
                         "id": "PM_POWER_DOWN_CPU_IN_LIGHT_SLEEP",
                         "name": "PM_POWER_DOWN_CPU_IN_LIGHT_SLEEP",
                         "range": null,
@@ -14986,59 +14883,6 @@
                         "type": "int"
                     },
                     {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "<choice ESP_WIFI_MGMT_RX_BUFFER>",
-                                "help": null,
-                                "id": "ESP_WIFI_STATIC_RX_MGMT_BUFFER",
-                                "name": "ESP_WIFI_STATIC_RX_MGMT_BUFFER",
-                                "range": null,
-                                "title": "Static",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice ESP_WIFI_MGMT_RX_BUFFER>",
-                                "help": null,
-                                "id": "ESP_WIFI_DYNAMIC_RX_MGMT_BUFFER",
-                                "name": "ESP_WIFI_DYNAMIC_RX_MGMT_BUFFER",
-                                "range": null,
-                                "title": "Dynamic",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "help": "Select type of WiFi RX MGMT buffers:\n\nIf \"Static\" is selected, WiFi RX MGMT buffers are allocated when WiFi is initialized and released\nwhen WiFi is de-initialized. The size of each static RX MGMT buffer is fixed to about 500 Bytes.\n\nIf \"Dynamic\" is selected, each WiFi RX MGMT buffer is allocated as needed when a MGMT data frame is\nreceived. The MGMT buffer is freed after the MGMT data frame has been processed by the WiFi driver.",
-                        "id": "component-config-wi-fi-type-of-wifi-rx-mgmt-buffers",
-                        "name": "ESP_WIFI_MGMT_RX_BUFFER",
-                        "title": "Type of WiFi RX MGMT buffers",
-                        "type": "choice"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "ESP_WIFI_DYNAMIC_RX_MGMT_BUF",
-                        "name": "ESP_WIFI_DYNAMIC_RX_MGMT_BUF",
-                        "range": null,
-                        "title": null,
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "Set the number of WiFi RX_MGMT buffers.\n\nFor Management buffers, the number of dynamic and static management buffers is the same.\nIn order to prevent memory fragmentation, the management buffer type should be set to static first.",
-                        "id": "ESP_WIFI_RX_MGMT_BUF_NUM_DEF",
-                        "name": "ESP_WIFI_RX_MGMT_BUF_NUM_DEF",
-                        "range": [
-                            1,
-                            10
-                        ],
-                        "title": "Max number of WiFi RX MGMT buffers",
-                        "type": "int"
-                    },
-                    {
                         "children": [],
                         "depends_on": "SOC_WIFI_CSI_SUPPORT",
                         "help": "Select this option to enable CSI(Channel State Information) feature. CSI takes about\nCONFIG_ESP32_WIFI_STATIC_RX_BUFFER_NUM KB of RAM. If CSI is not used, it is better to disable\nthis feature in order to save memory.",
@@ -15194,7 +15038,7 @@
                     },
                     {
                         "children": [],
-                        "depends_on": null,
+                        "depends_on": "WPA_MBEDTLS_CRYPTO",
                         "help": "Select this option to allow the device to establish a WPA3-Personal connection with eligible AP's.\nPMF (Protected Management Frames) is a prerequisite feature for a WPA3 connection, it needs to be\nexplicitly configured before attempting connection. Please refer to the Wi-Fi Driver API Guide for details.",
                         "id": "ESP32_WIFI_ENABLE_WPA3_SAE",
                         "name": "ESP32_WIFI_ENABLE_WPA3_SAE",
@@ -15396,16 +15240,6 @@
                         "name": "ESP_WIFI_WPS_PASSPHRASE",
                         "range": null,
                         "title": "Get WPA2 passphrase in WPS config",
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "Select this to enable/disable enterprise connection support.\n\ndisabling this will reduce binary size.\ndisabling this will disable the use of any esp_wifi_sta_wpa2_ent_* (as APIs will be meaningless)",
-                        "id": "ESP_WIFI_ENTERPRISE_SUPPORT",
-                        "name": "ESP_WIFI_ENTERPRISE_SUPPORT",
-                        "range": null,
-                        "title": "Enable enterprise option",
                         "type": "bool"
                     }
                 ],
@@ -17110,16 +16944,6 @@
                         "range": null,
                         "title": "Use ROM implementation of heap tlsf library",
                         "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": "IDF_TARGET_ESP32C2 && ESP32C2_REV_MIN_FULL < 200",
-                        "help": "ROM does not contain the patch of tlsf_check_pool() allowing perform\nthe integrity checking on used blocks. The patch to allow  such check\nneeds to be applied.",
-                        "id": "HEAP_TLSF_CHECK_PATCH",
-                        "name": "HEAP_TLSF_CHECK_PATCH",
-                        "range": null,
-                        "title": "Patch the tlsf_check_pool() for ROM HEAP TLSF implementation",
-                        "type": "bool"
                     }
                 ],
                 "depends_on": null,
@@ -17377,30 +17201,6 @@
                     },
                     {
                         "children": [],
-                        "depends_on": null,
-                        "help": "LWIP tcpip task priority. In case of high throughput, this parameter\ncould be changed up to (configMAX_PRIORITIES-1).",
-                        "id": "LWIP_TCPIP_TASK_PRIO",
-                        "name": "LWIP_TCPIP_TASK_PRIO",
-                        "range": [
-                            1,
-                            24
-                        ],
-                        "title": "LWIP TCP/IP Task Priority",
-                        "type": "int"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "LWIP_TCPIP_CORE_LOCKING",
-                                "help": "when LWIP_TCPIP_CORE_LOCKING is enabled, this lets tcpip_input() grab the\nmutex for input packets as well, instead of allocating a message and passing\nit to tcpip_thread.",
-                                "id": "LWIP_TCPIP_CORE_LOCKING_INPUT",
-                                "name": "LWIP_TCPIP_CORE_LOCKING_INPUT",
-                                "range": null,
-                                "title": "Enable tcpip core locking input",
-                                "type": "bool"
-                            }
-                        ],
                         "depends_on": null,
                         "help": "If Enable tcpip core locking,Creates a global mutex that is held\nduring TCPIP thread operations.Can be locked by client code to perform\nlwIP operations without changing into TCPIP thread using callbacks.\nSee LOCK_TCPIP_CORE() and UNLOCK_TCPIP_CORE().\n\nIf disable tcpip core locking,TCP IP will perform tasks through context switching",
                         "id": "LWIP_TCPIP_CORE_LOCKING",
@@ -20387,14 +20187,26 @@
                         "type": "bool"
                     },
                     {
-                        "children": [],
-                        "depends_on": "ESP_ROM_HAS_MBEDTLS_CRYPTO_LIB",
-                        "help": "Enable this flag to use mbedtls crypto algorithm from ROM instead of ESP-IDF.\n\nThis configuration option saves flash footprint in the application binary.\nNote that the version of mbedtls crypto algorithm library in ROM is v2.16.12.\nWe have done the security analysis of the mbedtls revision in ROM (v2.16.12)\nand ensured that affected symbols have been patched (removed). If in the future\nmbedtls revisions there are security issues that also affects the version in\nROM (v2.16.12) then we shall patch the relevant symbols. This would increase\nthe flash footprint and hence care must be taken to keep some reserved space\nfor the application binary in flash layout.",
-                        "id": "MBEDTLS_USE_CRYPTO_ROM_IMPL",
-                        "name": "MBEDTLS_USE_CRYPTO_ROM_IMPL",
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "MBEDTLS_SECURITY_RISKS",
+                                "help": "Allow the X.509 certificate parser to load certificates\nwith unsupported critical extensions",
+                                "id": "MBEDTLS_ALLOW_UNSUPPORTED_CRITICAL_EXT",
+                                "name": "MBEDTLS_ALLOW_UNSUPPORTED_CRITICAL_EXT",
+                                "range": null,
+                                "title": "X.509 CRT parsing with unsupported critical extensions",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": null,
+                        "help": null,
+                        "id": "MBEDTLS_SECURITY_RISKS",
+                        "is_menuconfig": true,
+                        "name": "MBEDTLS_SECURITY_RISKS",
                         "range": null,
-                        "title": "Use ROM implementation of the crypto algorithm",
-                        "type": "bool"
+                        "title": "Show configurations with potential security risks",
+                        "type": "menu"
                     }
                 ],
                 "depends_on": null,
@@ -21635,26 +21447,6 @@
                         "range": null,
                         "title": null,
                         "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "This is a helper config for 32bits address flash. Invisible for users.",
-                        "id": "SPI_FLASH_32BIT_ADDRESS",
-                        "name": "SPI_FLASH_32BIT_ADDRESS",
-                        "range": null,
-                        "title": null,
-                        "type": "bool"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "SPI_FLASH_OCTAL_32BIT_ADDR_ENABLE",
-                        "name": "SPI_FLASH_OCTAL_32BIT_ADDR_ENABLE",
-                        "range": null,
-                        "title": null,
-                        "type": "bool"
                     }
                 ],
                 "depends_on": null,
@@ -22525,7 +22317,7 @@
                             }
                         ],
                         "depends_on": null,
-                        "help": "Select this option to enable the use of MbedTLS crypto APIs.\nThe internal crypto support within the supplicant is limited\nand may not suffice for all new security features, including WPA3.\n\nIt is recommended to always keep this option enabled. Additionally,\nnote that MbedTLS can leverage hardware acceleration if available,\nresulting in significantly faster cryptographic operations.",
+                        "help": "Select this option to use MbedTLS crypto APIs which utilize hardware acceleration.",
                         "id": "WPA_MBEDTLS_CRYPTO",
                         "name": "WPA_MBEDTLS_CRYPTO",
                         "range": null,
@@ -22544,7 +22336,7 @@
                     },
                     {
                         "children": [],
-                        "depends_on": "SOC_WIFI_GCMP_SUPPORT",
+                        "depends_on": null,
                         "help": "Select this option to enable 192 bit NSA suite-B.\nThis is necessary to support WPA3 192 bit security.",
                         "id": "WPA_SUITE_B_192",
                         "name": "WPA_SUITE_B_192",

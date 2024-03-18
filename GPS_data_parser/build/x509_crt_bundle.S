@@ -1,4 +1,4 @@
-/* * Data converted from C:/Users/92335/Desktop/COWLAR_TASK/GPS_data_parser/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from C:/Users/92335/Desktop/GPS_Data_Parser_Task/GPS_data_parser/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded
